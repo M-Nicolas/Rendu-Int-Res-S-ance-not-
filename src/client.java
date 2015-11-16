@@ -30,7 +30,7 @@ public class Client {
      * @return
      */
     static public String ecrireGetListeNoms() {
-        return "(getListeNoms)";
+        return "(getList)";
     }
 
     /**
