@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
@@ -7,7 +11,11 @@ public class Client {
         BufferedReader is = null; // input stream
 
         try {
-            socket = new Socket("", 1313);
+            System.out.println("Veuillez tapper l'adresse IP souhaite :");
+            Scanner in = new Scanner(System.in);
+
+            String target = in.nextLine();
+            socket = new Socket(target, 1313);
             System.out.println("debut client");
 
             os = new DataOutputStream(socket.getOutputStream());
