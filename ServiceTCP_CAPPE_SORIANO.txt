@@ -1,0 +1,149 @@
+﻿TD1. Communication client-serveur
+
+
+
+
+I. Détails
+
+Type de sérialisation : 
+Chaîne
+
+Numéro de port :
+1903
+
+Flux d'entrée/sortie :
+BufferedReader et DataOutputStream
+
+Requêtes :
+
+
+■ Accéder au nom d'une personne 
+
+■ Accéder au(x) surnom(s) d'une personne
+
+■ Lister l'ensemble des noms enregistrés dans le serveur
+
+■ Lister l'ensemble des surnoms enregistrés dans le serveur
+
+■ Lister l'ensemble des noms et surnoms enregistrés dans le serveur
+
+■ Ajouter un nouveau nom avec le(s) surnom(s) associés
+
+■ Ajouter/Modifier le(s) surnom(s) d'une personne
+
+■ Supprimer le(s) surnom(s) d'une personne enregistrée dans le serveur
+
+■ Supprimer le nom d'une personne enregistrée dans le serveur
+
+
+Requêtes implémentées :
+setNom (ajouter un nouveau nom avec les surnoms associés)
+getList (lister l'ensemble des noms enregistrés dans le serveur)
+getSurnom (lister l'ensemble des surnoms correspondant au nom passé en paramètre)
+removeNom (supprime le nom passé en paramètre et ses surnoms du serveur)
+
+
+II. Description du protocole d’application :
+
+Pour toute requête contenant une erreur syntaxique, le serveur renvoie "#SYNTAX ERROR#"
+
+getNom :
+
+	Sérialisation : envoi au serveur sous la forme : « (getNom)surnom »
+	
+	Retour : String de nom(s) correspondant au surnom passé en paramètre en minuscules
+		 
+	String contenant un message d'erreur si un problème est survenu
+		 (le nom n'existe pas, le surnom passé en paramètre est au mauvais format)
+
+
+
+getSurnom :
+	
+	Sérialisation : envoi au serveur sous la forme : « (getSurnom)nom »
+	
+	Retour : Liste de surnoms séparés par des points virgule (surnom;surnom1;...) correspondants au nom passé en paramètre en minuscules
+		 
+			String contenant un message d'erreur si un problème est survenu
+		 (le nom n'existe pas, le nom passé en paramètre est au mauvais format)
+
+
+
+getListeNoms :
+	
+	Sérialisation : envoi au serveur sous la forme : « (getListeNoms) »
+	
+	Retour : String contenant tous les noms enregistrés dans le serveur (donc String vide s'il n'y 	a rien d'enregistré dans la liste)
+	
+
+
+getListeSurnoms :
+	
+	Sérialisation : envoi au serveur sous la forme : « (getListeSurnoms) »
+	
+	Retour : String contenant tous les surnoms enregistrés dans le serveur (donc String vide s'il n'y a rien enregistré dans la liste)
+	
+
+
+getListe :
+	
+	Sérialisation : envoi au serveur sous la forme : « (getList) »
+	
+	Retour :String du type «-nom: surnom ; surnom ;… -nom: surnom ; surnom ;… » , contenant les noms avec leurs surnoms associés 
+	(donc String vide s'il n'y a rien enregistré dans la liste)
+	
+
+
+setNom :
+	
+	Ajoute un nouveau nom avec les surnoms passés en paramètre. Si le nom existe déjà, les 	surnoms sont ajoutés à la liste des surnoms pour cette personne.
+	
+	Sérialisation : envoi au serveur sous la forme : « (setNom)nom : surnom ; surnom ; … »
+	
+	Retour : "1" si un nouveau a été créé
+		 "2" si le nom existait déjà et a reçu les nouveaux surnoms 
+
+
+
+setSurnom :
+	
+	Modifie le surnom surnomAModifier dans la liste des surnoms de la personne nom en surnomRemplacant.
+	
+	Sérialisation : envoi au serveur sous la forme : « (setSurnom)nom : surnomAModifier, surnomRemplacant »
+	
+	Retour : "1" si le surnom a bien été modifié 
+	"0" si un problème est survenu (le nom n'existe pas ou nom n'a pas de n-ième surnom)
+
+
+
+removeSurnom :
+	
+	Supprime le surnom donné dans la liste des surnoms de la personne nom 
+	
+	Sérialisation : envoi au serveur sous la forme : « (removeSurnom)nom : surnom »
+	
+	Retour : "1" si le surnom a bien été supprimé 
+	"0" si un problème est survenu (le nom n'existe pas ou le nom n'a pas de n-ième surnom)
+
+
+removeNom :
+	
+	Supprime le nom de la liste des noms
+
+	Sérialisation : envoi au serveur sous la forme : « (removeNom)nom »
+
+	Retour : "1" si le nom a bien été supprimé 
+	"0"  si le nom n'existe pas
+
+
+III. Exemples :
+
+(En supposant que "Chloe" et "Cindy" sont déjà enregistées dans le serveur, avec leurs surnoms)
+
+Lorsque le client veut ajouter le surnom "jojo" à "Johanna" il envoie la requête: (setNom)Johanna:jojo;
+Et le serveur lui répond "1" si Johanna n'était pas enregistrée dans le serveur
+						 "2" si elle y était déjà. 
+
+Lorque le client envoie une requête: (getListe) 
+Le serveur lui renvoie la liste des noms:
+-Cindy:  cycy ; cici ; ici ; -Chloe: cloclo ; clo ; c ; ohoh ; -Johana: jojo ; 
