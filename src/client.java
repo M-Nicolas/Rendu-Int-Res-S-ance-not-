@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -102,22 +103,13 @@ public class Client {
             System.out.println("debut client");
 
             os = new DataOutputStream(socket.getOutputStream());
-            is = new BufferedReader(socket.getInputStream());
+            is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             String request = createRequest();
 
-            /*
-            String tavu = checkAnswer(a);
+            envoie(request, os);
 
-            if ("ok".equals(tavu)) {
-                showAction(a);
-                showValues(a);
-            } else if ("nope". equals(tavu)) {
-                System.out.println("Le serveur est pas gentil, il a refusé notre requète...");
-            } else {
-                System.out.println("Dear, we're in trouble !");
-            }
-            */
+            System.out.println(ecoute(is));
 
             os.close();
             is.close();
@@ -147,5 +139,6 @@ public class Client {
             System.out.println("probleme de reception");
             e.printStackTrace();
         }
+        return "ERROR rien n'a été reçu";
     }
 }
