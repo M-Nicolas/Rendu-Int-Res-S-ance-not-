@@ -62,19 +62,6 @@ public class Client {
             os = new DataOutputStream(socket.getOutputStream());
             is = new BufferedReader(socket.getInputStream());
 
-            /*
-            String tavu = checkAnswer(a);
-
-            if ("ok".equals(tavu)) {
-                showAction(a);
-                showValues(a);
-            } else if ("nope". equals(tavu)) {
-                System.out.println("Le serveur est pas gentil, il a refusé notre requète...");
-            } else {
-                System.out.println("Dear, we're in trouble !");
-            }
-            */
-
             os.close();
             is.close();
             socket.close();
@@ -83,20 +70,25 @@ public class Client {
         }
     }
 
-    public static void envoie(String envoie, DataOutputStream os) throws IOException {
+    public static void envoie(String envoie, DataOutputStream os) {
         int stop = envoie.length();
-        for (int i = 0; i < stop; i++)
-            os.writeChar(envoie.charAt(i));
-        os.writeChar(';');
+        try {
+            for (int i = 0; i < stop; i++)
+                os.writeChar(envoie.charAt(i));
+            os.writeChar(';');
+        }catch(IOException e){
+            System.out.println("probleme d'envoie")
+            e.printStackTrace();
+        }
     }
 
     public static String ecoute(BufferedReader is){
         try{
-            is.readLine();
+            String recu = is.readLine();
+            return recu;
         }catch(IOException e){
+            System.out.println("probleme de reception")
             e.printStackTrace();
         }
-
-        return null;
     }
 }
