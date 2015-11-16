@@ -127,20 +127,25 @@ public class Client {
         }
     }
 
-    public static void envoie(String envoie, DataOutputStream os) throws IOException {
+    public static void envoie(String envoie, DataOutputStream os) {
         int stop = envoie.length();
-        for (int i = 0; i < stop; i++)
-            os.writeChar(envoie.charAt(i));
-        os.writeChar(';');
+        try {
+            for (int i = 0; i < stop; i++)
+                os.writeChar(envoie.charAt(i));
+            os.writeChar(';');
+        }catch(IOException e){
+            System.out.println("probleme d'envoie");
+            e.printStackTrace();
+        }
     }
 
     public static String ecoute(BufferedReader is){
         try{
-            is.readLine();
+            String recu = is.readLine();
+            return recu;
         }catch(IOException e){
+            System.out.println("probleme de reception");
             e.printStackTrace();
         }
-
-        return null;
     }
 }
