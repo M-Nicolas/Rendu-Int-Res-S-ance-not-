@@ -7,12 +7,12 @@ import java.util.Scanner;
 public class Client {
 
     /**
-     * Méthode écrivant la chaine à envoyer au serveur pour reccupérer un Nom.
+     * Méthode écrivant la chaine à envoyer au serveur pour écrire un Nom.
      * @param surnom
      * @return
      */
-    static public String ecrireGetNom(String surnom) {
-        return "(getNom)"+surnom;
+    static public String ecrireSetNom(String surnom) {
+        return "(setNom)"+surnom;
     }
 
     /**
@@ -41,6 +41,48 @@ public class Client {
         return "(removeNom)"+nom;
     }
 
+    static public String createRequest() {
+        System.out.println("Veuillez selectionner l'action à faire :\n1. Méthode SetNom.\n2. Méthode getSurnom." +
+                "\n3. Méthode GetListe.\n4. Méthode RemoveNom.");
+
+        Scanner in = new Scanner(System.in);
+
+        String number = in.nextLine();
+
+        if ("1".equals(number)) {
+            System.out.println("Veuillez tapper le nom à ajouter :");
+            in = new Scanner(System.in);
+
+            String surname = in.nextLine();
+            in.close();
+            return ecrireSetNom(surname);
+        } else if ("2".equals(number)) {
+            System.out.println("Veuillez tapper le nom à partir duquel chercher les surnoms :");
+            in = new Scanner(System.in);
+
+            String name = in.nextLine();
+            in.close();
+            return ecrireGetSurnom(name);
+        } else if ("3".equals(number)) {
+            return ecrireGetListeNoms();
+        } else if ("4".equals(number)) {
+            System.out.println("Veuillez tapper le nom à supprimer :");
+            in = new Scanner(System.in);
+
+            String name = in.nextLine();
+            in.close();
+            return ecrireRemoveNom(name);
+        } else{
+            in.close();
+            return error();
+        }
+    }
+
+    static public String error() {
+        System.out.println("Veuillez choisir une valeur entre 1 et 2");
+        return createRequest();
+    }
+
     /**
      * Main du client
      * @param args
@@ -61,6 +103,8 @@ public class Client {
 
             os = new DataOutputStream(socket.getOutputStream());
             is = new BufferedReader(socket.getInputStream());
+
+            String request = createRequest();
 
             /*
             String tavu = checkAnswer(a);
