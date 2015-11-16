@@ -107,7 +107,7 @@ public class Client {
             os = new DataOutputStream(socket.getOutputStream());
             is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            String request = createRequest();
+            String request = createRequest() + ";\n";
 
             System.out.println("on va envoye :" + request);
 
@@ -121,16 +121,18 @@ public class Client {
             is.close();
             socket.close();
         } catch (Exception e) {
-            System.err.println("Youston, we have a problem ! Voici le problème en question : " + e);
+            System.err.println("We have a problem : " + e);
+            e.printStackTrace();
         }
     }
 
     public static void envoie(String envoie, DataOutputStream os) {
-        int stop = envoie.length();
+        //int stop = envoie.length();
         try {
-            for (int i = 0; i < stop; i++)
-                os.writeChar(envoie.charAt(i));
-            os.writeChar(';');
+            os.writeBytes(envoie);
+            //for (int i = 0; i < stop; i++)
+            //    os.writeBytes(envoie.charAt(i));
+            //os.writeChar(';');
         }catch(IOException e){
             System.out.println("probleme d'envoie");
             e.printStackTrace();
@@ -139,8 +141,10 @@ public class Client {
 
     public static String ecoute(BufferedReader is){
         try{
-            String recu = is.readLine();
-            return recu;
+            int i = 0;
+            while(true){
+                System.out.print((char) is.read()+  " : " + i++);
+            }
         }catch(IOException e){
             System.out.println("probleme de reception");
             e.printStackTrace();
