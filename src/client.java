@@ -98,8 +98,8 @@ public class Client {
             System.out.println("Veuillez tapper l'adresse IP souhaite :");
             Scanner in = new Scanner(System.in);
 
-            String target = in.nextLine();
-            socket = new Socket(target, 1313);
+            //String target = in.nextLine();
+            socket = new Socket("10.212.116.160", 1903);
             System.out.println("debut client");
 
             os = new DataOutputStream(socket.getOutputStream());
