@@ -141,9 +141,13 @@ public class Client {
 
     public static String ecoute(BufferedReader is){
         try{
-            int i = 0;
+            char a = ' ';
+            String reponse = "";
             while(true){
-                System.out.print((char) is.read()+  " : " + i++);
+                a = (char) is.read();
+                reponse += a;
+                if (a == '\n')
+                    return reponse;
             }
         }catch(IOException e){
             System.out.println("probleme de reception");
