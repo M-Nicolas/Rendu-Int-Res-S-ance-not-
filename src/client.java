@@ -4,6 +4,46 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
+
+    /**
+     * Méthode écrivant la chaine à envoyer au serveur pour reccupérer un Nom.
+     * @param surnom
+     * @return
+     */
+    static public String ecrireGetNom(String surnom) {
+        return "(getNom)"+surnom;
+    }
+
+    /**
+     * Méthode écrivant la chaine à envoyer au serveur pour réccupérer un Surnom.
+     * @param nom
+     * @return
+     */
+    static public String ecrireGetSurnom(String nom) {
+        return "(getSurnom)"+nom;
+    }
+
+    /**
+     * Méthode écrivant la chaine à envoyer au serveur pour réccupérer la liste de noms.
+     * @return
+     */
+    static public String ecrireGetListeNoms() {
+        return "(getListeNoms)";
+    }
+
+    /**
+     * Méthode écrivant la chaine à envoyer au serveur pour supprimer un nom.
+     * @param nom
+     * @return
+     */
+    static public String ecrireRemoveNom(String nom) {
+        return "(removeNom)"+nom;
+    }
+
+    /**
+     * Main du client
+     * @param args
+     */
     public static void main(String[] args) {
         Socket socket = null;
 
@@ -20,8 +60,6 @@ public class Client {
 
             os = new DataOutputStream(socket.getOutputStream());
             is = new BufferedReader(socket.getInputStream());
-
-            
 
             /*
             String tavu = checkAnswer(a);
