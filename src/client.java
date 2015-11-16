@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class Client {
             os = new DataOutputStream(socket.getOutputStream());
             is = new BufferedReader(socket.getInputStream());
 
-            
+
 
             /*
             String tavu = checkAnswer(a);
@@ -41,6 +42,21 @@ public class Client {
             socket.close();
         } catch (Exception e) {
             System.err.println("Youston, we have a problem ! Voici le problème en question : " + e);
+        }
+    }
+
+    public static void envoie(String envoie, DataOutputStream os) throws IOException {
+        int stop = envoie.length();
+        for (int i = 0; i < stop; i++)
+            os.writeChar(envoie.charAt(i));
+        os.writeChar(';');
+    }
+
+    public static String ecoute(BufferedReader is){
+        try{
+            is.readLine();
+        }catch(IOException e){
+            e.printStackTrace();
         }
     }
 }
