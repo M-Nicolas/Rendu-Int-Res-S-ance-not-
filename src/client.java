@@ -89,14 +89,16 @@ public class Client {
      * @param args
      */
     public static void main(String[] args) {
+        System.out.println("client_0");
+
         Socket socket = null;
 
         DataOutputStream os = null; // output stream
         BufferedReader is = null; // input stream
 
         try {
-            System.out.println("Veuillez tapper l'adresse IP souhaite :");
-            Scanner in = new Scanner(System.in);
+            //System.out.println("Veuillez tapper l'adresse IP souhaite :");
+            //Scanner in = new Scanner(System.in);
 
             //String target = in.nextLine();
             socket = new Socket("10.212.116.160", 1903);
@@ -107,7 +109,11 @@ public class Client {
 
             String request = createRequest();
 
+            System.out.println("on va envoye :" + request);
+
             envoie(request, os);
+
+            System.out.println("on a envoye !");
 
             System.out.println(ecoute(is));
 
